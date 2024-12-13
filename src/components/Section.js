@@ -6,7 +6,7 @@ const Section = ({ section, addTask, handleNoteChange, handleTitleChange }) => (
   <div style={{ marginBottom: "20px", padding: "10px", border: "1px solid #ccc", borderRadius: "5px" }}>
     <input
       type="text"
-      value={section.title}
+      value={section.name}
       onChange={(e) => handleTitleChange(section.id, e.target.value)}
       style={{
         fontSize: "18px",
@@ -21,7 +21,7 @@ const Section = ({ section, addTask, handleNoteChange, handleTitleChange }) => (
     <Droppable droppableId={section.id}>
       {(provided) => (
         <div ref={provided.innerRef} {...provided.droppableProps} style={{ marginTop: "10px" }}>
-          {section.tasks.map((task, index) => (
+          {(section.tasks || []).map((task, index) => (
             <Task
               key={task.id}
               task={task}

@@ -5,6 +5,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useSections } from "./contexts/sectionContext";
 import { useDragDrop } from "./hooks/useDragDrop";
 import './styles/global.css';
+import axios from 'axios';
 
 const App = () => {
   const { sections, setSections } = useSections();
@@ -49,22 +50,36 @@ const App = () => {
     setSections(updatedSections);
   };
 
-  const addSection = () => {
+  const addSection = async () => {
     const sectionTitle = prompt("Enter section title:");
     if (!sectionTitle) return;
-
-    setSections([
-      ...sections,
-      {
-        id: `section-${Date.now()}`,
-        title: sectionTitle,
+  
+    try {
+      // Call the API with POST method
+      const response = await axios.post('http://localhost:5000/sections', { name: sectionTitle });
+  
+      // Use the response to set the section
+      const newSection = {
+        id: response.data.id || `section-${Date.now()}`, // Use the API's ID or fallback to a generated ID
+        name: sectionTitle,
         tasks: [
           { id: "task-1", name: "Add Task...", date: "", status: "", note: "" },
           { id: "task-2", name: "Add Task...", date: "", status: "", note: "" }
         ],
-      },
-    ]);
+      };
+  
+      setSections([
+        ...sections,
+        newSection,
+      ]);
+  
+      console.log("Section added successfully:", newSection);
+    } catch (error) {
+      console.error("Error adding section:", error);
+      alert("Failed to add section. Please try again.");
+    }
   };
+  
 
   const onTitleChange = (sectionId, newTitle) => {
     const updatedSections = sections.map((section) =>

@@ -23,7 +23,6 @@ const Task = ({ task, index, sectionId, addTask, handleNoteChange }) => {
     );
   }
 
-  // Standard draggable task
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided) => (
@@ -47,7 +46,7 @@ const Task = ({ task, index, sectionId, addTask, handleNoteChange }) => {
             type="date"
             value={task.date}
             onChange={(e) =>
-              handleNoteChange(sectionId, task.id, e.target.value) // Pass sectionId
+              handleNoteChange(sectionId, task.id, e.target.value)
             }
             style={{ marginRight: "10px" }}
           />
@@ -57,7 +56,7 @@ const Task = ({ task, index, sectionId, addTask, handleNoteChange }) => {
             value={task.note}
             placeholder="Add note"
             onChange={(e) =>
-              handleNoteChange(sectionId, task.id, e.target.value) // Pass sectionId
+              handleNoteChange(sectionId, task.id, e.target.value)
             }
           />
         </div>
